@@ -33,8 +33,6 @@ public class CustomUserDetailsService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		List<Usuario> usuarios=(List<Usuario>)usuarioService.findUsuarioByEmail(username);
 		
-		logger.info(username);
-		logger.info("userdetailservice");
 		if(usuarios.isEmpty()) {
 			throw new UsernameNotFoundException(username+" not found");
 		}

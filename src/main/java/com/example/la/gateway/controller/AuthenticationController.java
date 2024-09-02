@@ -40,10 +40,7 @@ public class AuthenticationController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
-		System.out.println("createAuthenticationToken");
 		String password=authenticationRequest.getPassword();
-		logger.info("PASSWORd:"+password);
-		logger.info("Paswe: "+bcryp.encode(password));
 		authenticationRequest.setPassword(password);
 		final String jwt=jwtService.createJwtToken(authenticationRequest);
 		return ResponseEntity.ok(new AuthenticationResponse(jwt));
