@@ -38,13 +38,11 @@ public class CustomUserDetailsService implements UserDetailsService{
 		}
 		
 		Usuario usuario=usuarios.get(0);
-		logger.info(usuario.toString());
 		List<Rol> roles=usuario.getRoles();
 		
 		List<GrantedAuthority> listAuth=roles.stream()
 				.map(rol->new SimpleGrantedAuthority(ROLE+rol.getName()))
 				.collect(Collectors.toList());
-		logger.info("antes return userdetails");
 		return new org.springframework.security.core.userdetails
 				.User(usuario.getEmail(), usuario.getPassword(), listAuth);
 	}

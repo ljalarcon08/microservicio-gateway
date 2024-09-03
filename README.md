@@ -18,3 +18,7 @@ Es un servidor de tipo portal usado para centralizar los llamados a microservici
 	- http://localhost:8090/auth/login
 	- http://localhost:8090/api/usuario
 	- http://localhost:8090/api/producto
+
+##Swagger
+
+http://localhost:8090/auth/swagger-ui.html
