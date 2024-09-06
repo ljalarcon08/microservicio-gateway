@@ -40,8 +40,6 @@ public class JwtUtil {
 	
 	
 	public Claims extractAllClaims(String token) {
-		//return Jwts.parser().setSigningKey(secret).build().parseSignedClaims(token).getPayload();
-		
 		return Jwts.parser().verifyWith(getSecret()).build().parseSignedClaims(token).getPayload();
 	}
 	

@@ -38,7 +38,7 @@ public class AuthenticationController {
 	@Autowired
 	private BCryptPasswordEncoder bcryp; 
 	
-	Logger logger=LoggerFactory.getLogger(AuthenticationController.class);
+	private Logger logger=LoggerFactory.getLogger(AuthenticationController.class);
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
@@ -70,7 +70,7 @@ public class AuthenticationController {
 	
 	@SecurityRequirement(name = "Bearer Authentication")
 	@GetMapping("/checkToken")
-	public ResponseEntity<?> getFecha(@RequestHeader("Authorization") String bearerToken){
+	public ResponseEntity<?> checkToken(@RequestHeader("Authorization") String bearerToken){
 		return ResponseEntity.ok(jwtService.checkToken(bearerToken));
 	}
 	

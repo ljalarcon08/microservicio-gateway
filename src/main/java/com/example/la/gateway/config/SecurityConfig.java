@@ -2,6 +2,8 @@ package com.example.la.gateway.config;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +33,12 @@ import com.example.la.gateway.service.CustomUserDetailsService;
 import com.example.la.gateway.util.JwtUtil;
 
 @Configuration
+@SecurityScheme(
+		name = "Bearer Authentication",
+		type = SecuritySchemeType.HTTP,
+		bearerFormat = "JWT",
+		scheme = "bearer"
+)
 @EnableWebSecurity
 public class SecurityConfig{
 
