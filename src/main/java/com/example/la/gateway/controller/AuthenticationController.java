@@ -23,6 +23,8 @@ import com.example.la.gateway.domain.AuthenticationResponse;
 import com.example.la.gateway.domain.RequestCambioPass;
 import com.example.la.gateway.service.JwtService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
@@ -36,14 +38,11 @@ public class AuthenticationController {
 	@Autowired
 	private BCryptPasswordEncoder bcryp; 
 	
-	Logger logger=LoggerFactory.getLogger(AuthenticationController.class);
+	private Logger logger=LoggerFactory.getLogger(AuthenticationController.class);
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
-		System.out.println("createAuthenticationToken");
 		String password=authenticationRequest.getPassword();
-		logger.info("PASSWORd:"+password);
-		logger.info("Paswe: "+bcryp.encode(password));
 		authenticationRequest.setPassword(password);
 		final String jwt=jwtService.createJwtToken(authenticationRequest);
 		return ResponseEntity.ok(new AuthenticationResponse(jwt));
@@ -64,18 +63,18 @@ public class AuthenticationController {
 	@PostMapping("/cambiarPass")
 	public ResponseEntity<?> cambioPass(@RequestBody RequestCambioPass request){
 		request.setNuevoPassword(bcryp.encode(request.getNuevoPassword()));
-		logger.info(request.getNuevoPassword());
 		jwtService.cambioPassword(request);
 		
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
+	@SecurityRequirement(name = "Bearer Authentication")
 	@GetMapping("/checkToken")
-	public ResponseEntity<?> getFecha(@RequestHeader("Authorization") String bearerToken){
+	public ResponseEntity<?> checkToken(@RequestHeader("Authorization") String bearerToken){
 		return ResponseEntity.ok(jwtService.checkToken(bearerToken));
 	}
 	
-	
+	@SecurityRequirement(name = "Bearer Authentication")
 	@GetMapping("/logout")
 	public ResponseEntity<?> logout(@RequestHeader("Authorization") String bearerToken){
 		jwtService.desactivarSesion(bearerToken);

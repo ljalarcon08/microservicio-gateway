@@ -46,11 +46,9 @@ public class JwtService {
         Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 
-        logger.info(auth.getName());
         
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         
-        logger.info(userDetails.getAuthorities().toString());
         
         long currentTime=System.currentTimeMillis();
         
@@ -96,7 +94,6 @@ public class JwtService {
     public void desactivarSesion(String bearerToken) {
     	String token=bearerToken.replace("Bearer ", "");
     	String username=jwtUtil.extractClaim(token, Claims::getSubject);
-    	logger.info(username);
     	sesionService.logout(username);    	
     }
 }
