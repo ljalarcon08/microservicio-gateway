@@ -1,6 +1,5 @@
 package com.example.la.gateway.util;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,17 +7,15 @@ import java.util.Map;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
-import org.bouncycastle.util.encoders.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
@@ -43,8 +40,6 @@ public class JwtUtil {
 	
 	
 	public Claims extractAllClaims(String token) {
-		//return Jwts.parser().setSigningKey(secret).build().parseSignedClaims(token).getPayload();
-		
 		return Jwts.parser().verifyWith(getSecret()).build().parseSignedClaims(token).getPayload();
 	}
 	
@@ -72,7 +67,7 @@ public class JwtUtil {
 	public String generateToken(UserDetails userDetails,long currentTime) {
 		Map<String,Object> claims=new HashMap<>();
 		List<String> claimList=userDetails.getAuthorities().stream()
-				.map(auth->auth.getAuthority()).peek(auth->logger.info(auth)).toList();
+				.map(auth->auth.getAuthority()).toList();
 		claims.put("roles",claimList);
 		return createToken(claims,userDetails.getUsername(),currentTime);
 		

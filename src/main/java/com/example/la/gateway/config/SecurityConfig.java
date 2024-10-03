@@ -2,6 +2,8 @@ package com.example.la.gateway.config;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +33,12 @@ import com.example.la.gateway.service.CustomUserDetailsService;
 import com.example.la.gateway.util.JwtUtil;
 
 @Configuration
+@SecurityScheme(
+		name = "Bearer Authentication",
+		type = SecuritySchemeType.HTTP,
+		bearerFormat = "JWT",
+		scheme = "bearer"
+)
 @EnableWebSecurity
 public class SecurityConfig{
 
@@ -46,6 +54,7 @@ public class SecurityConfig{
 		http.cors(Customizer.withDefaults()).csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(authorizeRequests->
 		authorizeRequests
 		.requestMatchers(HttpMethod.GET,"/api/usuario/email/**").hasAnyRole("USER","ADMIN")
+		.requestMatchers(HttpMethod.GET,"/api/usuario/usuario/v1/**").permitAll()
 		.requestMatchers("/api/usuario/**").hasRole("ADMIN")
 		.requestMatchers(HttpMethod.POST,"/api/producto/**").hasAnyRole("ADMIN_PRODUCTO","ADMIN")
 		.requestMatchers(HttpMethod.PUT,"/api/producto/**").hasAnyRole("ADMIN_PRODUCTO","ADMIN")
