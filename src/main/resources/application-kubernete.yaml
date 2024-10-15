@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: microservicio-gateway
+
+springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
+    path: /auth/v1/api-docs
+  swagger-ui:
+    enabled: true
+    path: /auth/swagger-ui.html
+    config-url: /auth/v1/api-docs/swagger-config
+    urls:
+      - url: /auth/v1/api-docs
+        name: Auth Controller
+      - url: /api/usuario/usuario/v1/api-docs
+        name: Usuario Controller
+      - url: /api/producto/producto/v1/api-docs
+        name: Producto Controller
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://microservicio-eureka:8761/eureka/
+  instance:
+    preferIpAddress: true
