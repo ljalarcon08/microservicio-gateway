@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservicio-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservicio-gateway
+  template:
+    metadata:
+      labels:
+        app: microservicio-gateway
+    spec:
+      containers:
+        - name: app
+          image: microservicio-gateway:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8090
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservicio-gateway
+spec:
+  selector:
+    app: microservicio-gateway
+  ports:
+    - port: 8090
+      targetPort: 8090
+  type: LoadBalancer
