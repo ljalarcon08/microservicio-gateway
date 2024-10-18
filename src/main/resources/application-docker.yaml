@@ -1,6 +1,27 @@
 spring:
   application:
     name: microservicio-gateway
+  cloud:
+    discovery:
+      enabled: true
+      client:
+        composite-indicator:
+          enabled: true
+    gateway:
+      mvc:
+        routes:
+          - id: usuario
+            uri: lb://usuario
+            predicates:
+              - Path=/api/usuario/**
+            filters:
+              - StripPrefix=2
+          - id: producto
+            uri: lb://producto
+            predicates:
+              - Path=/api/producto/**
+            filters:
+              - StripPrefix=2
 
 springdoc:
   enable-native-support: true
@@ -25,3 +46,4 @@ eureka:
       defaultZone: http://microservicio-eureka:8761/eureka/
   instance:
     preferIpAddress: true
+    hostname: microservicio-eureka
